@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Whiteboard Pro</title>
+    <title>Digital Whiteboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -264,7 +264,7 @@
 </head>
 <body>
     <div class="header">
-        <h1 class="title">Digital Whiteboard Pro</h1>
+        <h1 class="title">Digital Whiteboard</h1>
         <div class="tool-group">
             <button class="btn download" id="downloadBtn">
                 <i class="fas fa-download"></i> Save
@@ -330,11 +330,9 @@
         const coordinates = document.getElementById('coordinates');
         const currentTool = document.getElementById('currentTool');
 
-        // Canvas history for undo
         let history = [];
         let historyIndex = -1;
 
-        // Set canvas size
         function resizeCanvas() {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
@@ -344,26 +342,22 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Drawing state
         let isDrawing = false;
         let currentColor = '#000000';
         let isEraser = false;
         let lastX = 0;
         let lastY = 0;
 
-        // Drawing settings
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         ctx.lineWidth = 2;
 
-        // Save canvas state
         function saveState() {
             history = history.slice(0, historyIndex + 1);
             historyIndex++;
             history.push(canvas.toDataURL());
         }
 
-        // Redraw canvas from history
         function redrawCanvas() {
             if (historyIndex < 0) return;
             
@@ -375,14 +369,12 @@
             };
         }
 
-        // Event listeners for drawing
         canvas.addEventListener('mousedown', startDrawing);
         canvas.addEventListener('mousemove', draw);
         canvas.addEventListener('mouseup', stopDrawing);
         canvas.addEventListener('mouseout', stopDrawing);
         canvas.addEventListener('mousemove', updateCoordinates);
 
-        // Touch support
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
             const touch = e.touches[0];
@@ -409,7 +401,6 @@
             canvas.dispatchEvent(mouseEvent);
         });
 
-        // Drawing functions
         function startDrawing(e) {
             isDrawing = true;
             [lastX, lastY] = [e.offsetX, e.offsetY];
@@ -438,7 +429,6 @@
             coordinates.textContent = `Position: ${e.offsetX}, ${e.offsetY}`;
         }
 
-        // Color buttons
         colorBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 isEraser = false;
@@ -450,7 +440,6 @@
             });
         });
 
-        // Eraser
         eraserBtn.addEventListener('click', () => {
             isEraser = !isEraser;
             eraserBtn.classList.toggle('active');
@@ -464,17 +453,14 @@
             }
         });
 
-        // Eraser size slider
         eraserSlider.addEventListener('input', () => {
             eraserValue.textContent = `${eraserSlider.value}px`;
         });
 
-        // Line width slider
         lineWidthSlider.addEventListener('input', () => {
             lineWidthValue.textContent = `${lineWidthSlider.value}px`;
         });
 
-        // Undo button
         undoBtn.addEventListener('click', () => {
             if (historyIndex > 0) {
                 historyIndex--;
@@ -482,7 +468,6 @@
             }
         });
 
-        // Clear all
         clearBtn.addEventListener('click', () => {
             const confirm = window.confirm('Are you sure you want to clear the canvas?');
             if (confirm) {
@@ -491,7 +476,6 @@
             }
         });
 
-        // Download canvas
         downloadBtn.addEventListener('click', () => {
             const link = document.createElement('a');
             link.download = 'whiteboard.png';
@@ -499,7 +483,6 @@
             link.click();
         });
 
-        // Initialize canvas history
         saveState();
     </script>
 </body>
