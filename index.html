@@ -434,6 +434,16 @@
             coordinates.textContent = `Position: ${e.offsetX}, ${e.offsetY}`;
         }
 
+        function generateUniqueId(length = 8) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let uniqueId = '';
+            for (let i = 0; i < length; i++) {
+                uniqueId += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return uniqueId;
+        }
+
+
         colorBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 isEraser = false;
@@ -482,11 +492,11 @@
         });
 
         downloadBtn.addEventListener('click', () => {
-            const link = document.createElement('a');
-            link.download = 'whiteboard.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        });
+    const link = document.createElement('a');
+    link.download = `whiteboard_${generateUniqueId()}.png`;
+    link.href = canvas.toDataURL();
+    link.click();
+});
 
         saveState();
     </script>
